@@ -27,6 +27,10 @@ public class ScoreBoard : MonoBehaviour {
 				tScore = gos[1];
 				tHighest = gos[0];
 			}
+
+			Vector3 pos = Vector3.one;
+			pos.y = 40;
+			tScore.rectTransform.transform.position = pos;
 		}
 
 		PlayerPrefs.SetInt ("score_highest", highest);
