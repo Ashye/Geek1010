@@ -31,13 +31,13 @@ public class MainPlay : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		GameObject s = MakeShape (ShapeType.SHAPE_3);
-		s.transform.position = new Vector3 (0f, -2f, 9f);
+		s.transform.position = new Vector3 (0f, -3f, 9f);
 
 		GameObject s1 = MakeShape (ShapeType.SHAPE_5);
-		s1.transform.position = new Vector3 (-4.5f, -2f, 9f);
+		s1.transform.position = new Vector3 (-4.5f, -3f, 9f);
 
 		GameObject s2 = MakeShape (ShapeType.SHAPE_6);
-		s2.transform.position = new Vector3 (4.5f, -2f, 9f);
+		s2.transform.position = new Vector3 (4.5f, -3f, 9f);
 	}
 	 
 	// Update is called once per frame

@@ -87,6 +87,7 @@ public class Shape : MonoBehaviour {
 		}
 		lColliders.Clear();
 		filledBlocks.Clear();
+
 		//print ("colliders:"+lColliders.Count);
 		//print ("filledblock:"+filledBlocks.Count);
 	}
@@ -158,15 +159,32 @@ public class Shape : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerEnter(Collider other) {
+//	void OnTriggerEnter(Collider other) {
+//		//print ("sssssssssssssssss");
+//		if (blockMoving) {
+//			if (!lColliders.Contains(other.gameObject)) {
+//				lColliders.Add (other.gameObject);
+//			}
+//
+//		}
+//
+//		print (lColliders.Count);
+//	}
+
+	void OnTriggerStay(Collider other) {
 		if (blockMoving) {
-			lColliders.Add (other.gameObject);
+			if (!lColliders.Contains(other.gameObject)) {
+				lColliders.Add(other.gameObject);
+			}
 		}
+
+		//print (lColliders.Count);
 	}
 
 	void OnTriggerExit(Collider other) {
 		if (blockMoving) {
 			lColliders.Remove (other.gameObject);
 		}
+		//print (lColliders.Count);
 	}
 }
