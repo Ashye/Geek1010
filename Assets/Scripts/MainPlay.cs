@@ -3,16 +3,20 @@ using System.Collections;
 
 [SerializeField]
 public enum ShapeType {
-	ONE,
-	TWO_H,
-	TWO_V
+	SHAPE_0,
+	SHAPE_1,
+	SHAPE_2,
+	SHAPE_3,
+	SHAPE_4,
+	SHAPE_5,
+	SHAPE_6
 }
 
 
 
 public class MainPlay : MonoBehaviour {
 	public GameObject		blockPrefab;
-	public GameObject		shapePrefab;
+	public GameObject[]		shapePrefabs;
 
 	public bool				______________________;
 	public GameObject[,]	blocks;
@@ -26,11 +30,14 @@ public class MainPlay : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		GameObject s = MakeShape (ShapeType.ONE);
+		GameObject s = MakeShape (ShapeType.SHAPE_3);
 		s.transform.position = new Vector3 (0f, -2f, 9f);
 
-		GameObject s1 = MakeShape (ShapeType.ONE);
-		s1.transform.position = new Vector3 (-2f, -2f, 9f);
+		GameObject s1 = MakeShape (ShapeType.SHAPE_5);
+		s1.transform.position = new Vector3 (-4.5f, -2f, 9f);
+
+		GameObject s2 = MakeShape (ShapeType.SHAPE_6);
+		s2.transform.position = new Vector3 (4.5f, -2f, 9f);
 	}
 	 
 	// Update is called once per frame
@@ -67,22 +74,43 @@ public class MainPlay : MonoBehaviour {
 				}
 				blocks[i,j].transform.position = pos;
 				blocks[i,j].transform.parent = grid.transform;
+				blocks[i,j].name = "Block_bg"+i+"-"+j;
 			}
 			pos.y -= 1+gap;
 		}
+
+//		print (blocks[0,0].transform.position);
+//		print (blocks[1,0].transform.position);
+//		print (blocks[2,0].transform.position);
 	}
 
-	private GameObject MakeShape(ShapeType st) {
-		GameObject shape = null;
+//	private GameObject ShapeInit(GameObject shape) {
+//		shape.AddComponent<BoxCollider>();
+//		shape.collider.isTrigger = true;
+//		shape.AddComponent<Shape>();
+//		shape.AddComponent<Rigidbody>();
+//		shape.rigidbody.useGravity = false;
+//
+//		GameObject blk = Instantiate(shapePrefabs[0]) as GameObject;
+//		blk.transform.parent = shape.transform;
+//		return shape;
+//	}
+//
+//	/* edge: 0.left		1.top	2.right		3.bottom */
+//	private GameObject ShapeAddBlk(GameObject shape, int edge) {
+//		GameObject blk = Instantiate (blockPrefab[0]) as GameObject;
+//		return shape;
+//	}
 
-		switch (st) {
-		case ShapeType.ONE:
-			shape = Instantiate(shapePrefab) as GameObject;
-			//shape.transform.position = new Vector3(0f, 5f, 10f);
-			break;
-		}
+	private GameObject MakeShape(ShapeType st) {
+
+		int idx = st.GetHashCode ();
+		GameObject shape = new GameObject("shape");
+		//print (st.GetHashCode());
+		shape = Instantiate (shapePrefabs [idx]) as GameObject;
 		shape.tag = "Shape";
 		shape.layer = LayerMask.NameToLayer ("Shape");
 		return shape;
+
 	}
 }
