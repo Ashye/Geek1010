@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [SerializeField]
 public enum ShapeType {
@@ -9,49 +10,81 @@ public enum ShapeType {
 	SHAPE_3,
 	SHAPE_4,
 	SHAPE_5,
-	SHAPE_6
+	SHAPE_6,
+	SHAPE_7,
+	SHAPE_8,
+	SHAPE_9,
+	SHAPE_10,
+	SHAPE_11,
+	SHAPE_12,
+	SHAPE_13,
+	SHAPE_14,
+	SHAPE_15,
+	SHAPE_16,
+	SHAPE_17,
+	SHAPE_18
 }
 
 
 
 public class MainPlay : MonoBehaviour {
+	static public MainPlay	MPlay;
+
 	public GameObject		blockPrefab;
 	public GameObject[]		shapePrefabs;
 
 	public bool				______________________;
 	public GameObject[,]	blocks;
 
-	//static public MainPlay	PLAY;
+
+	private Vector3[]		shapePos;
+	private int 			freeShapeCnt;
+
+	//clear block
+	//private List<GameObject>	waitToClear;
+	//private Color				gridColor;
+
+
 
 	void Awake() {
-		//PLAY = this;
+		MPlay = this;
 		InitGrid ();
+		shapePos = new Vector3[3];
+		shapePos[0] = new Vector3 (0f, -3f, 9f);
+		shapePos[1] = new Vector3 (-4.5f, -3f, 9f);
+		shapePos[2] = new Vector3 (4.5f, -3f, 9f);
+		freeShapeCnt = 0;
+		//waitToClear = new List<GameObject> ();
+
 	}
 
 	// Use this for initialization
 	void Start () {
-		GameObject s = MakeShape (ShapeType.SHAPE_3);
-		s.transform.position = new Vector3 (0f, -3f, 9f);
-
-		GameObject s1 = MakeShape (ShapeType.SHAPE_5);
-		s1.transform.position = new Vector3 (-4.5f, -3f, 9f);
-
-		GameObject s2 = MakeShape (ShapeType.SHAPE_6);
-		s2.transform.position = new Vector3 (4.5f, -3f, 9f);
+		RandomShape ();
 	}
 	 
 	// Update is called once per frame
-	void Update () {
-	
+	void FixedUpdate () {
+		if (freeShapeCnt <= 0) {
+			RandomShape();
+		}
 	}
 
-	public void RandomShape() {
+
+
+	private void RandomShape() {
 		//刷新待放置图案
+		int idx = -1;
+		GameObject go = null;
+		for(int i=0; i<shapePos.Length; i++) {
+			idx = Random.Range(0, shapePrefabs.Length);
+			go = MakeShape(idx);
+			go.transform.position = shapePos[i];
+		}
+		freeShapeCnt = shapePos.Length;
+
 	}
 
-//	public bool CheckCanDrop() {
-//		return true;
-//	}
 
 	private void InitGrid() {
 
@@ -74,43 +107,30 @@ public class MainPlay : MonoBehaviour {
 				}
 				blocks[i,j].transform.position = pos;
 				blocks[i,j].transform.parent = grid.transform;
-				blocks[i,j].name = "Block_bg"+i+"-"+j;
+				blocks[i,j].name = "Block_bg-"+i+"-"+j;
 			}
 			pos.y -= 1+gap;
 		}
-
-//		print (blocks[0,0].transform.position);
-//		print (blocks[1,0].transform.position);
-//		print (blocks[2,0].transform.position);
 	}
 
-//	private GameObject ShapeInit(GameObject shape) {
-//		shape.AddComponent<BoxCollider>();
-//		shape.collider.isTrigger = true;
-//		shape.AddComponent<Shape>();
-//		shape.AddComponent<Rigidbody>();
-//		shape.rigidbody.useGravity = false;
-//
-//		GameObject blk = Instantiate(shapePrefabs[0]) as GameObject;
-//		blk.transform.parent = shape.transform;
-//		return shape;
-//	}
-//
-//	/* edge: 0.left		1.top	2.right		3.bottom */
-//	private GameObject ShapeAddBlk(GameObject shape, int edge) {
-//		GameObject blk = Instantiate (blockPrefab[0]) as GameObject;
-//		return shape;
-//	}
 
 	private GameObject MakeShape(ShapeType st) {
+		return (MakeShape (st.GetHashCode ()));
+	}
 
-		int idx = st.GetHashCode ();
-		GameObject shape = new GameObject("shape");
-		//print (st.GetHashCode());
+	private GameObject MakeShape(int idx) {
+		if (idx >= shapePrefabs.Length) {
+			return null;
+		}
+		GameObject shape = null;
+		
 		shape = Instantiate (shapePrefabs [idx]) as GameObject;
 		shape.tag = "Shape";
 		shape.layer = LayerMask.NameToLayer ("Shape");
 		return shape;
+	}
 
+	public void AteOneShape() {
+		freeShapeCnt -= 1;
 	}
 }

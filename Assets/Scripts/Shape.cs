@@ -8,18 +8,26 @@ public class Shape : MonoBehaviour {
 	private Vector3				oldScale;
 	private Vector3				oldPos;
 	private Color				shapeColor;
-	
+
+
+	//drop blocks
 	private List<GameObject>	lColliders;
 	private List<GameObject>	filledBlocks;
 	private bool				blockMoving = false;
 	private GameObject			headerToFill;
 
 
+	//clear blocks of row or col
+	private List<GameObject>	waitToClear;
+
+
 	void Awake() {
 		oldScale = gameObject.transform.localScale;
 		lColliders = new List<GameObject> ();
 		filledBlocks = new List<GameObject> ();
+		waitToClear = new List<GameObject> ();
 	}
+
 	// Use this for initialization
 	void Start () {
 		oldPos = transform.position;
@@ -43,7 +51,7 @@ public class Shape : MonoBehaviour {
 		//print(c1.name);
 		//print("c1.position:"+c1Pos);
 		
-		GameObject b1 = null;
+//		GameObject b1 = null;
 		foreach(GameObject go in lColliders) {
 			Vector3 blPos = go.transform.position;
 			float tmpDis = Vector3.Distance(c1Pos, blPos);
@@ -52,7 +60,6 @@ public class Shape : MonoBehaviour {
 				dis = tmpDis;
 			}
 		}
-
 	}
 
 
@@ -76,17 +83,27 @@ public class Shape : MonoBehaviour {
 	void OnMouseUp() {
 		blockMoving = false;
 		gameObject.transform.localScale = Vector3.one;
-
 		//检查能不能放下，能放下则销毁本对象，并填充网格，不能则图案返回原始位置
 
 		if (CheckSpace()) {
+
+		//	gameObject.SetActive(false);
 			FillBlock();
+			Scoreboard.SB.ScoreUp(transform.childCount);
+
+			//chech clear row and col
+			CheckBlocksNeedClear();
+			ClearRowsACols();
+			MainPlay.MPlay.AteOneShape();
 			Destroy(gameObject);
 		} else {
 			transform.position = oldPos;
+			gameObject.transform.localScale = oldScale;
 		}
+		headerToFill = null;
 		lColliders.Clear();
 		filledBlocks.Clear();
+		waitToClear.Clear ();
 
 		//print ("colliders:"+lColliders.Count);
 		//print ("filledblock:"+filledBlocks.Count);
@@ -95,11 +112,13 @@ public class Shape : MonoBehaviour {
 	//检查当前位置能不能放下图案
 	private bool CheckSpace() {
 		if (lColliders.Count > 0 && headerToFill != null) {
-			if (true == headerToFill.GetComponent<Block>().empty) {
+			if (true == headerToFill.GetComponent<Block> ().empty) {
 
-				filledBlocks.Add(headerToFill);
+				filledBlocks.Add (headerToFill);
 
-				Vector3 cblkPos = transform.GetChild(0).position;
+//				print(headerToFill.name);
+
+				Vector3 cblkPos = transform.GetChild (0).position;
 				Vector3 bgPos = headerToFill.transform.position;
 
 				//限制最短距离，小于它才能锁定位置
@@ -109,9 +128,11 @@ public class Shape : MonoBehaviour {
 				Vector2 bgp = Vector2.zero;
 				bgp.x = bgPos.x;
 				bgp.y = bgPos.y;
-				if (Vector3.Distance(cb, bgp) >0.7f) {
+				if (Vector3.Distance (cb, bgp) > 0.7f) {
 					return false;
 				}
+
+				//print("first:"+bgPos+cblkPos);
 
 				/*
 				 * 检查并筛选图案放置的块
@@ -120,30 +141,42 @@ public class Shape : MonoBehaviour {
 				 * 通过各方块中心点到基准方块中心点距离为依据，依次确定该图案填充的背景方块
 				 * 
 				*/
-				Vector3 offset ;
+				Vector3 offset;
 				for (int i=1; i<transform.childCount; i++) {
-					offset = transform.GetChild(i).position - cblkPos;
-					foreach(GameObject go in lColliders) {
-						if (go.transform.position ==  offset+bgPos) {
+					offset = transform.GetChild (i).position - cblkPos;
 
-							if (false == go.GetComponent<Block>().empty) {
+//					print(""+transform.GetChild(i).position+cblkPos);
+//					print("offset:"+offset);
+					foreach (GameObject go in lColliders) {
+
+//						print(go.transform.position);
+//						print(offset+bgPos);
+//						print(go.name);
+						if (go.transform.position == (offset + bgPos)) {
+
+							if (false == go.GetComponent<Block> ().empty) {
 								return false;
-							}else {
+							} else {
 								if (go != headerToFill) {
-									filledBlocks.Add(go);
+									filledBlocks.Add (go);
 								}
+//								print("22222222");
 							}
+						}else {
+//							print("1111111");
 						}
 					}
 				}
-				//print("filledCount:"+filledBlocks.Count);
+
+//				print ("filledCount:" + filledBlocks.Count);
 				if (filledBlocks.Count == transform.childCount) {
 					return true;
-				}else {
+				} else {
 					return false;
 				}
-
 			}
+		} else {
+//			print("000000000000");
 		}
 		return false;
 	}
@@ -153,9 +186,70 @@ public class Shape : MonoBehaviour {
 
 			foreach(GameObject go in filledBlocks) {
 				go.renderer.material.color = shapeColor;
-
 				go.GetComponent<Block>().empty = false;
 			}
+		}
+	}
+
+	private void CheckBlocksNeedClear() {
+		//find the row and col of the shape
+
+		List<GameObject> tmpGos = new List<GameObject> ();
+		List<int> checkedRow = new List<int> ();
+		List<int> checkedCol = new List<int> ();
+		int r, c = 0;
+		foreach (GameObject go in filledBlocks) {
+			int[] blkRC = go.GetComponent<Block>().rowACol;
+
+			//print(blkRC[0]+"-"+blkRC[1]);
+
+			//check rows
+			if (!checkedRow.Contains(blkRC[1])) {
+				for(r=0; r<10; r++) {
+					if (MainPlay.MPlay.blocks[r, blkRC[1]].GetComponent<Block>().empty) {
+						break;
+					}else {
+						tmpGos.Add(MainPlay.MPlay.blocks[r, blkRC[1]]);
+					}
+				}
+				if (r >= 10) {
+					waitToClear.AddRange(tmpGos);
+				}
+				tmpGos.Clear();
+				checkedRow.Add(blkRC[1]);
+			}
+
+
+			//check cols
+			if (!checkedCol.Contains(blkRC[0])) {
+				for(c=0; c<10; c++) {
+					if (MainPlay.MPlay.blocks[blkRC[0], c].GetComponent<Block>().empty) {
+						break;
+					}else {
+						tmpGos.Add(MainPlay.MPlay.blocks[blkRC[0], c]);
+					}
+				}
+				//print(c);
+				if (c >= 10) {
+					waitToClear.AddRange(tmpGos);
+				}
+				tmpGos.Clear();
+				checkedCol.Add(blkRC[0]);
+			}
+		}
+
+		//print ("clear count:"+waitToClear.Count);
+	}
+
+	private void ClearRowsACols() {
+		if (waitToClear.Count > 0) {
+			foreach (GameObject go in waitToClear) {
+				go.GetComponent<Block> ().empty = true;
+				//print(go.name);
+			}
+			waitToClear.Clear ();
+		} else {
+			//print("waitclear :"+waitToClear.Count);
 		}
 	}
 
