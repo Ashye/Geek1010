@@ -25,11 +25,16 @@ public class Block : MonoBehaviour {
 	private int[] getRowACol() {
 		//string name = gameObject.name;
 		string[] tmp = gameObject.name.Split ('-');
-		//print (tmp[1]+"-"+tmp[2]);
-		int [] RA = new int[2];
-		RA [0] = int.Parse (tmp [1]);
-		RA [1] = int.Parse (tmp [2]);
-		return RA;
+		if (tmp.Length == 3) {
+			//print (tmp.Length);
+			//print (tmp[0]+"-"+tmp[1]+"-"+tmp[2]);
+			int [] RA = new int[2];
+			RA [0] = int.Parse (tmp [1]);
+			RA [1] = int.Parse (tmp [2]);
+			return RA;
+		}
+
+		return null;
 
 	}
 

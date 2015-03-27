@@ -39,23 +39,28 @@ public class MainPlay : MonoBehaviour {
 
 	private Vector3[]		shapePos;
 	private int 			freeShapeCnt;
+	private float			gridSize;
+	private float			gridGap;
 
-	//clear block
-	//private List<GameObject>	waitToClear;
-	//private Color				gridColor;
 
 
 
 	void Awake() {
 		MPlay = this;
-		InitGrid ();
+
 		shapePos = new Vector3[3];
 		shapePos[0] = new Vector3 (0f, -3f, 9f);
 		shapePos[1] = new Vector3 (-4.5f, -3f, 9f);
 		shapePos[2] = new Vector3 (4.5f, -3f, 9f);
 		freeShapeCnt = 0;
-		//waitToClear = new List<GameObject> ();
 
+		GameObject blk = Instantiate (blockPrefab) as GameObject;
+		gridSize = blk.renderer.bounds.size.x;
+		gridGap = gridSize / 10f;
+		Destroy (blk);
+		print (gridSize + "     " + gridGap);
+
+		InitGrid ();
 	}
 
 	// Use this for initialization
@@ -91,8 +96,7 @@ public class MainPlay : MonoBehaviour {
 		GameObject grid = new GameObject ("blockGrid");
 		blocks = new GameObject[10, 10];
 		Vector3 pos = Vector3.zero;
-		float gap = 0.2f;
-		pos.x = 5.9f;
+
 		pos.y = 12f;
 		pos.z = -Camera.main.transform.position.z;
 		for(int i=0; i<10; i++) {
@@ -101,15 +105,17 @@ public class MainPlay : MonoBehaviour {
 				blocks[i,j].tag = "Block";
 				blocks[i,j].layer = LayerMask.NameToLayer("Block");
 				if (j == 0) {
-					pos.x = -5.5f;
+					pos.x = -4.5f * (gridSize + gridGap);
 				}else {
-					pos.x += 1.2f;
+					pos.x += gridSize + gridGap;
 				}
+				print(pos);
 				blocks[i,j].transform.position = pos;
 				blocks[i,j].transform.parent = grid.transform;
+				blocks[i,j].transform.localScale = Vector3.one * gridSize;
 				blocks[i,j].name = "Block_bg-"+i+"-"+j;
 			}
-			pos.y -= 1+gap;
+			pos.y -= gridSize + gridGap;
 		}
 	}
 
