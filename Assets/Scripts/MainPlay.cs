@@ -56,9 +56,22 @@ public class MainPlay : MonoBehaviour {
 
 		GameObject blk = Instantiate (blockPrefab) as GameObject;
 		gridSize = blk.renderer.bounds.size.x;
-		gridGap = gridSize / 10f;
-		Destroy (blk);
+
+
+		Vector3 tmp = blk.renderer.bounds.size;
+
+		//gridGap = gridSize / 10f;
+		gridGap = 0.2f;
+		//Destroy (blk);
 		print (gridSize + "     " + gridGap);
+
+//		print (tmp);
+//		print (Camera.main.WorldToScreenPoint(tmp));
+//		print (Camera.main.WorldToViewportPoint (tmp));
+//		print ("------------");
+//		print (Camera.main.ViewportToScreenPoint(tmp));
+//		print (Camera.main.ViewportToWorldPoint(tmp));
+
 
 		InitGrid ();
 	}
@@ -109,7 +122,7 @@ public class MainPlay : MonoBehaviour {
 				}else {
 					pos.x += gridSize + gridGap;
 				}
-				print(pos);
+				//print(pos);
 				blocks[i,j].transform.position = pos;
 				blocks[i,j].transform.parent = grid.transform;
 				blocks[i,j].transform.localScale = Vector3.one * gridSize;

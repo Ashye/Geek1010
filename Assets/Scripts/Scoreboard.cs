@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+//using UnityEngine.UI;
 using System.Collections;
 
 public class Scoreboard : MonoBehaviour {
@@ -10,26 +10,37 @@ public class Scoreboard : MonoBehaviour {
 	private int 			highest = 0;
 
 	private string 			HIGHEST = "highestScore";
-	private Text			tScore;
-	private Text			tHighest;
+	private Vector2			labelSize;
+	private GUIStyle		labelStyle;
+
+
+	void OnGUI () {
+
+		labelStyle.alignment = TextAnchor.MiddleRight;
+		GUI.Label (new Rect(Screen.width/3 - labelSize.x/2, Screen.height/20, labelSize.x, labelSize.y), ""+score, labelStyle);
+
+		labelStyle.alignment = TextAnchor.MiddleLeft;
+		GUI.Label (new Rect(Screen.width/3*2 - labelSize.x/2, Screen.height/20, labelSize.x, labelSize.y), ""+highest, labelStyle);
+	}
 
 	void Awake() {
 		SB = this;
-
-		Text[] texts = (transform.GetChild(0)).GetComponentsInChildren<Text>();
-		tScore = texts [0];
-		tHighest = texts [1];
-
 
 		if (PlayerPrefs.HasKey (HIGHEST)) {
 			highest = PlayerPrefs.GetInt(HIGHEST);
 		}
 		PlayerPrefs.SetInt (HIGHEST, highest);
+
+
+		labelSize = new Vector2 (Screen.width/4, Screen.height/15);
+		labelStyle = new GUIStyle ();
+		labelStyle.normal.background = null;
+		labelStyle.fontSize = Screen.height/15;
 	}
 
 	// Use this for initialization
 	void Start () {
-		tHighest.text = highest.ToString ();
+
 	}
 	
 	// Update is called once per frame
@@ -38,10 +49,8 @@ public class Scoreboard : MonoBehaviour {
 		if (score > highest) {
 			highest = score;
 			PlayerPrefs.SetInt (HIGHEST, highest);
-			tHighest.text = highest.ToString ();
 		}
 
-		tScore.text = score.ToString ();
 	}
 
 	public void ScoreUp(int value) {
