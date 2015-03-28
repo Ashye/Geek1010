@@ -35,12 +35,13 @@ public class MainPlay : MonoBehaviour {
 
 	public bool				______________________;
 	public GameObject[,]	blocks;
+	private float			gridSize;
+	private float			gridGap;
 
 
 	private Vector3[]		shapePos;
-	private int 			freeShapeCnt;
-	private float			gridSize;
-	private float			gridGap;
+	private List<GameObject>	randomShapes;	
+
 
 
 
@@ -50,10 +51,6 @@ public class MainPlay : MonoBehaviour {
 
 		GameObject blk = Instantiate (blockPrefab) as GameObject;
 		gridSize = blk.renderer.bounds.size.x;
-
-
-		Vector3 tmp = blk.renderer.bounds.size;
-
 		gridGap = 0.2f;
 		Destroy (blk);
 		//print (gridSize + "     " + gridGap);
@@ -76,8 +73,7 @@ public class MainPlay : MonoBehaviour {
 		shapePos[1] = (shapePos[0] + shapePos[2])/2;
 
 
-		freeShapeCnt = 0;
-		
+		randomShapes = new List<GameObject>();
 	}
 
 	// Use this for initialization
@@ -87,7 +83,7 @@ public class MainPlay : MonoBehaviour {
 	 
 	// Update is called once per frame
 	void FixedUpdate () {
-		if (freeShapeCnt <= 0) {
+		if (randomShapes.Count <= 0) {
 			RandomShape();
 		}
 	}
@@ -102,8 +98,11 @@ public class MainPlay : MonoBehaviour {
 			idx = Random.Range(0, shapePrefabs.Length);
 			go = MakeShape(idx);
 			go.transform.position = shapePos[i];
+			randomShapes.Add(go);
 		}
-		freeShapeCnt = shapePos.Length;
+
+		//check game over
+		CheckGameOver();
 
 	}
 
@@ -153,7 +152,86 @@ public class MainPlay : MonoBehaviour {
 		return shape;
 	}
 
-	public void AteOneShape() {
-		freeShapeCnt -= 1;
+	public void AteOneShape(GameObject go) {
+		randomShapes.Remove(go);
+		CheckGameOver();
+	}
+
+
+	public bool ShapeCanDrop(GameObject shape) {
+
+		print("test shape:"+shape.name+ "   blocks: "+shape.transform.childCount);
+		bool canDrop = false;
+		Vector3 local = shape.transform.localScale;
+		shape.transform.localScale = Vector3.one;
+
+		//依次把图案放在网格中尝试放下
+		Vector3 shape0Pos = shape.transform.GetChild(0).position;
+		Vector3 offset;
+		Vector3 grid0Pos;
+
+		foreach(GameObject header in blocks) {
+			grid0Pos = header.transform.position;
+			bool mayCan = true;
+			for(int m=1; m<shape.transform.childCount; m++) {
+				offset = shape.transform.GetChild(m).position - shape0Pos;
+
+				foreach(GameObject grid in blocks) {
+					if (grid.transform.position == (grid0Pos + offset)) {
+						print(grid.transform.position);
+						if (false == grid.GetComponent<Block>().empty) {
+							mayCan = false;
+							break;
+						}
+					}
+				}
+
+				count the free Block;
+
+			}
+			if (mayCan) {
+				canDrop = true;
+				break;
+			}
+		}
+
+		shape.transform.localScale = local;
+		return canDrop;
+	}
+
+	private void CheckGameOver() {
+		if (randomShapes.Count >0) {
+			bool isOver = true;
+
+			//check gameover flow
+			foreach(GameObject go in randomShapes) {
+
+				bool candrop = ShapeCanDrop(go);
+				print(go.name+"-"+candrop);
+				if (candrop) {
+					isOver = false;
+					break;
+				}
+			}
+
+
+			print("isOver:"+isOver);
+//			if (isOver) {
+//				ShowGameover();
+//			}
+		}
+	}
+
+
+	//gameover view
+	private void ShowGameover () {
+		GameObject go = new GameObject();
+		go.transform.localScale = Vector3.one * 15;
+		go.AddComponent<Rigidbody>();
+		go.AddComponent<GameOver>();
+		go.AddComponent<BoxCollider>();
+		go.rigidbody.useGravity = false;
+		go.transform.position = Vector3.zero;
+		go.transform.parent = gameObject.transform;
 	}
 }

@@ -21,6 +21,8 @@ public class Shape : MonoBehaviour {
 	private List<GameObject>	waitToClear;
 
 
+
+
 	void Awake() {
 		oldScale = gameObject.transform.localScale;
 		lColliders = new List<GameObject> ();
@@ -67,6 +69,10 @@ public class Shape : MonoBehaviour {
 		blockMoving = true;
 		gameObject.transform.localScale = 1.01f * Vector3.one;
 
+		//move up some space when drag the shape
+		Vector3 tmppos = gameObject.transform.position;
+		gameObject.transform.position  = tmppos + new Vector3(0f, 1.5f, 0f);
+
 
 		Vector3 screenSpace = Camera.main.WorldToScreenPoint (transform.position);
 		Vector3 offset = transform.position - Camera.main.ScreenToWorldPoint (new Vector3 (
@@ -94,7 +100,7 @@ public class Shape : MonoBehaviour {
 			//chech clear row and col
 			CheckBlocksNeedClear();
 			ClearRowsACols();
-			MainPlay.MPlay.AteOneShape();
+			MainPlay.MPlay.AteOneShape(gameObject);
 			Destroy(gameObject);
 		} else {
 			transform.position = oldPos;
@@ -183,7 +189,6 @@ public class Shape : MonoBehaviour {
 
 	private void FillBlock() {
 		if (lColliders.Count > 0) {
-
 			foreach(GameObject go in filledBlocks) {
 				go.renderer.material.color = shapeColor;
 				go.GetComponent<Block>().empty = false;
@@ -281,4 +286,6 @@ public class Shape : MonoBehaviour {
 		}
 		//print (lColliders.Count);
 	}
+
+
 }
