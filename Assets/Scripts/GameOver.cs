@@ -18,7 +18,8 @@ public class GameOver : MonoBehaviour {
 
 	void OnGUI() {
 		if (GUI.Button(new Rect(posBtnFirst.x, posBtnFirst.y, sizeBtn.x, sizeBtn.y), "Home")) {
-			print("Home page is unfinished......");
+			//print("Home page is unfinished......");
+			Application.LoadLevel("Home");
 		}
 
 		if (GUI.Button(new Rect(posBtnFirst.x, posBtnFirst.y+spaceBtwBtn, sizeBtn.x, sizeBtn.y), "Play")) {
