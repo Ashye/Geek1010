@@ -160,7 +160,7 @@ public class MainPlay : MonoBehaviour {
 
 	public bool ShapeCanDrop(GameObject shape) {
 
-		print("test shape:"+shape.name+ "   blocks: "+shape.transform.childCount);
+//		print("test shape:"+shape.name+ "   blocks: "+shape.transform.childCount);
 		bool canDrop = false;
 		Vector3 local = shape.transform.localScale;
 		shape.transform.localScale = Vector3.one;
@@ -171,25 +171,28 @@ public class MainPlay : MonoBehaviour {
 		Vector3 grid0Pos;
 
 		foreach(GameObject header in blocks) {
+
+			if (false == header.GetComponent<Block>().empty) {
+				continue;
+			}
 			grid0Pos = header.transform.position;
-			bool mayCan = true;
-			for(int m=1; m<shape.transform.childCount; m++) {
+			int count = 0;
+			for(int m=0; m<shape.transform.childCount; m++) {
 				offset = shape.transform.GetChild(m).position - shape0Pos;
 
 				foreach(GameObject grid in blocks) {
 					if (grid.transform.position == (grid0Pos + offset)) {
-						print(grid.transform.position);
 						if (false == grid.GetComponent<Block>().empty) {
-							mayCan = false;
 							break;
+						}else {
+							count++;
 						}
 					}
 				}
 
-				count the free Block;
-
 			}
-			if (mayCan) {
+		//	print("free bloocks:"+count);
+			if (count == shape.transform.childCount) {
 				canDrop = true;
 				break;
 			}
@@ -207,7 +210,7 @@ public class MainPlay : MonoBehaviour {
 			foreach(GameObject go in randomShapes) {
 
 				bool candrop = ShapeCanDrop(go);
-				print(go.name+"-"+candrop);
+//				print(go.name+"-"+candrop);
 				if (candrop) {
 					isOver = false;
 					break;
@@ -215,10 +218,10 @@ public class MainPlay : MonoBehaviour {
 			}
 
 
-			print("isOver:"+isOver);
-//			if (isOver) {
-//				ShowGameover();
-//			}
+//			print("isOver:"+isOver);
+			if (isOver) {
+				ShowGameover();
+			}
 		}
 	}
 
