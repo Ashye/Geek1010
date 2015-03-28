@@ -65,7 +65,7 @@ public class Shape : MonoBehaviour {
 
 	IEnumerator OnMouseDown() {
 		blockMoving = true;
-		gameObject.transform.localScale = 1.1f * Vector3.one;
+		gameObject.transform.localScale = 1.01f * Vector3.one;
 
 
 		Vector3 screenSpace = Camera.main.WorldToScreenPoint (transform.position);

@@ -48,32 +48,36 @@ public class MainPlay : MonoBehaviour {
 	void Awake() {
 		MPlay = this;
 
-		shapePos = new Vector3[3];
-		shapePos[0] = new Vector3 (0f, -3f, 9f);
-		shapePos[1] = new Vector3 (-4.5f, -3f, 9f);
-		shapePos[2] = new Vector3 (4.5f, -3f, 9f);
-		freeShapeCnt = 0;
-
 		GameObject blk = Instantiate (blockPrefab) as GameObject;
 		gridSize = blk.renderer.bounds.size.x;
 
 
 		Vector3 tmp = blk.renderer.bounds.size;
 
-		//gridGap = gridSize / 10f;
 		gridGap = 0.2f;
-		//Destroy (blk);
-		print (gridSize + "     " + gridGap);
-
-//		print (tmp);
-//		print (Camera.main.WorldToScreenPoint(tmp));
-//		print (Camera.main.WorldToViewportPoint (tmp));
-//		print ("------------");
-//		print (Camera.main.ViewportToScreenPoint(tmp));
-//		print (Camera.main.ViewportToWorldPoint(tmp));
-
+		Destroy (blk);
+		//print (gridSize + "     " + gridGap);
 
 		InitGrid ();
+
+
+		//random shape pos
+		shapePos = new Vector3[3];
+		Vector3 p1 = blocks[9,0].transform.position;
+		shapePos[0] = p1 + new Vector3(1f, 0f, 0f);
+		shapePos[0].z = 9f;
+		shapePos[0].y -= 5*gridSize;
+
+		p1 = blocks[9,9].transform.position;
+		shapePos[2] = p1 - new Vector3(1f, 0f, 0f);
+		shapePos[2].z = 9f;
+		shapePos[2].y -= 5*gridSize;
+
+		shapePos[1] = (shapePos[0] + shapePos[2])/2;
+
+
+		freeShapeCnt = 0;
+		
 	}
 
 	// Use this for initialization
