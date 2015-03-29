@@ -21,6 +21,11 @@ public class Shape : MonoBehaviour {
 	private List<GameObject>	waitToClear;
 
 
+	//show up animation
+	private Vector3				targetPos;
+	private bool				isAnimate;
+	private float				moveSpeed = 70;
+
 
 
 	void Awake() {
@@ -28,11 +33,18 @@ public class Shape : MonoBehaviour {
 		lColliders = new List<GameObject> ();
 		filledBlocks = new List<GameObject> ();
 		waitToClear = new List<GameObject> ();
+
 	}
 
 	// Use this for initialization
 	void Start () {
-		oldPos = transform.position;
+
+		targetPos = transform.position;
+		transform.position = Vector3.one * -10;
+		isAnimate = true;
+
+
+		oldPos = targetPos;
 		shapeColor = transform.GetChild (0).renderer.material.color;
 
 	}
@@ -43,6 +55,15 @@ public class Shape : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
+
+		if (isAnimate) {
+			if (transform.position != targetPos) {
+				transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * moveSpeed);
+			}else {
+				isAnimate = false;
+			}
+		}
+
 		//检查第一位置的块确定图案在网格中的位置，再检查该位置能不能放下
 		//第一块的位置是图案的左上角那块
 		

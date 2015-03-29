@@ -3,12 +3,28 @@ using System.Collections;
 
 public class Block : MonoBehaviour {
 
+	public GameObject		blockPrefab;
+	public bool 			____________________;
+
 	private bool			_empty = true;
 	private int[]			_rowAndCol;
 	private Color			_oldColor;
 
+	//show animate
+	private Vector3			targetPos;
+	private float			moveSpeed = 70f;
+	private bool			isAnimate = false;
+	
+
+
+
 	// Use this for initialization
 	void Start () {
+
+		targetPos = transform.position;
+		isAnimate = true;
+		transform.position = Vector3.one * 10f;
+
 		_oldColor = renderer.material.color;
 		_rowAndCol = getRowACol ();
 	}
@@ -19,15 +35,18 @@ public class Block : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-		
+		if (isAnimate) {
+			if (transform.position != targetPos) {
+				transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * moveSpeed);
+			}else {
+				isAnimate = false;
+			}
+		}
 	}
 
 	private int[] getRowACol() {
-		//string name = gameObject.name;
 		string[] tmp = gameObject.name.Split ('-');
 		if (tmp.Length == 3) {
-			//print (tmp.Length);
-			//print (tmp[0]+"-"+tmp[1]+"-"+tmp[2]);
 			int [] RA = new int[2];
 			RA [0] = int.Parse (tmp [1]);
 			RA [1] = int.Parse (tmp [2]);
@@ -50,6 +69,7 @@ public class Block : MonoBehaviour {
 			}
 		}
 	}
+	
 
 	public int[] rowACol {
 		get {
