@@ -26,11 +26,17 @@ public enum ShapeType {
 }
 
 
-
+/*
+ * 
+ * gridSize: 0.9
+ * girdGap: 0.1
+ * offset: -0.4 (Camera)
+ * 
+ */
 public class MainPlay : MonoBehaviour {
 	static public MainPlay	MPlay;
 
-	public GameObject		blockPrefab;
+	public GameObject		blockBGPrefab;
 	public GameObject[]		shapePrefabs;
 
 	public bool				______________________;
@@ -49,9 +55,9 @@ public class MainPlay : MonoBehaviour {
 	void Awake() {
 		MPlay = this;
 
-		GameObject blk = Instantiate (blockPrefab) as GameObject;
+		GameObject blk = Instantiate (blockBGPrefab) as GameObject;
 		gridSize = blk.renderer.bounds.size.x;
-		gridGap = 0.2f;
+		gridGap = 0.1f;
 		Destroy (blk);
 		//print (gridSize + "     " + gridGap);
 
@@ -117,11 +123,12 @@ public class MainPlay : MonoBehaviour {
 		pos.z = -Camera.main.transform.position.z;
 		for(int i=0; i<10; i++) {
 			for (int j=0; j<10; j++) {
-				blocks[i,j] = Instantiate(blockPrefab) as GameObject;
+				blocks[i,j] = Instantiate(blockBGPrefab) as GameObject;
 				blocks[i,j].tag = "Block";
 				blocks[i,j].layer = LayerMask.NameToLayer("Block");
 				if (j == 0) {
-					pos.x = -4.5f * (gridSize + gridGap);
+					pos.x = -5*gridSize - 4.5f * gridGap;
+					//print(pos.x);
 				}else {
 					pos.x += gridSize + gridGap;
 				}
