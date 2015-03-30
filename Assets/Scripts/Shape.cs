@@ -8,6 +8,7 @@ public class Shape : MonoBehaviour {
 	private Vector3				oldScale;
 	private Vector3				oldPos;
 	private Color				shapeColor;
+	private CapsuleCollider		dragArea;
 
 
 	//drop blocks
@@ -33,6 +34,8 @@ public class Shape : MonoBehaviour {
 		lColliders = new List<GameObject> ();
 		filledBlocks = new List<GameObject> ();
 		waitToClear = new List<GameObject> ();
+
+		dragArea = gameObject.GetComponent<CapsuleCollider>();
 
 	}
 
@@ -88,6 +91,9 @@ public class Shape : MonoBehaviour {
 
 	IEnumerator OnMouseDown() {
 		blockMoving = true;
+
+		//禁用 用于拖动区域的碰撞器，避免计算填充块时出现错误
+		dragArea.enabled = false;
 		gameObject.transform.localScale = 1.01f * Vector3.one;
 
 		//move up some space when drag the shape
@@ -109,6 +115,8 @@ public class Shape : MonoBehaviour {
 
 	void OnMouseUp() {
 		blockMoving = false;
+		//恢复可拖动区域状态
+		dragArea.enabled = true;
 		gameObject.transform.localScale = Vector3.one;
 		//检查能不能放下，能放下则销毁本对象，并填充网格，不能则图案返回原始位置
 
@@ -273,6 +281,7 @@ public class Shape : MonoBehaviour {
 				go.GetComponent<Block> ().empty = true;
 				//print(go.name);
 			}
+			Scoreboard.SB.ScoreUp(waitToClear.Count);
 			waitToClear.Clear ();
 		} else {
 			//print("waitclear :"+waitToClear.Count);

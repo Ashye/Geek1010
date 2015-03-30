@@ -8,6 +8,7 @@ public class Scoreboard : MonoBehaviour {
 
 	private int 			score = 0;
 	private int 			highest = 0;
+	private int				upScore = 0;
 
 	private string 			HIGHEST = "highestScore";
 	private Vector2			labelSize;
@@ -45,15 +46,19 @@ public class Scoreboard : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 
-		if (score > highest) {
-			highest = score;
-			PlayerPrefs.SetInt (HIGHEST, highest);
+		if (upScore > 0) {
+			score ++;
+			upScore--;
 		}
 
 	}
 
 	public void ScoreUp(int value) {
-		score += value;
+		upScore += value;
+		if (score + upScore > highest) {
+			highest = score + upScore;
+			PlayerPrefs.SetInt (HIGHEST, highest);
+		}
 	}
 
 	void OnDestroy() {
