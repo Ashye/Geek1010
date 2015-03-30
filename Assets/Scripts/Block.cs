@@ -14,7 +14,10 @@ public class Block : MonoBehaviour {
 	private Vector3			targetPos;
 	private float			moveSpeed = 70f;
 	private bool			isAnimate = false;
-	
+
+	//clear Row and Col
+	private GameObject		tmpblk = null;
+	private float			clearSpeed = 2f;
 
 
 
@@ -42,6 +45,16 @@ public class Block : MonoBehaviour {
 				isAnimate = false;
 			}
 		}
+
+		if (tmpblk != null) {
+			Vector3 local = tmpblk.transform.localScale;
+			if (local.x >0) {
+				tmpblk.transform.localScale = local - Vector3.one * clearSpeed * Time.deltaTime;
+			}else {
+				Destroy(tmpblk);
+				tmpblk = null;
+			}
+		}
 	}
 
 	private int[] getRowACol() {
@@ -65,11 +78,22 @@ public class Block : MonoBehaviour {
 			_empty = value;
 			//restore color when block is empty
 			if (_empty) {
-				renderer.material.color = _oldColor;
+				ClearRowACol();
+				//renderer.material.color = _oldColor;
 			}
 		}
 	}
-	
+
+	private void ClearRowACol() {
+		Vector3 pos = transform.position;
+		pos.z = 8f;
+		tmpblk = Instantiate(blockPrefab, pos, transform.rotation) as GameObject;
+		tmpblk.renderer.material.color = renderer.material.color;
+
+		renderer.material.color = _oldColor;
+
+	}
+
 
 	public int[] rowACol {
 		get {
