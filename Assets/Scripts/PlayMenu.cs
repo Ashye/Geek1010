@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class PlayMenu : MonoBehaviour {
+	public GameObject			pmMenuPrefab;
+
 
 	// Use this for initialization
 	void Start () {
@@ -18,19 +20,13 @@ public class PlayMenu : MonoBehaviour {
 	}
 
 	void OnMouseUp() {
-		print("pause game....");
+		//print("pause game....");
 		ShowPlayMenuItems();
 	}
 
 	private void ShowPlayMenuItems() {
-		GameObject go = new GameObject();
-		go.layer = LayerMask.NameToLayer("Normal");
-		go.transform.localScale = new Vector3(11f, 20f, transform.position.z -0.5f);
-		go.AddComponent<Rigidbody>();
-		go.AddComponent<PlayMenuItems>();
-		go.AddComponent<BoxCollider>();
-		go.rigidbody.useGravity = false;
-		go.transform.position = new Vector3(-.4f, 5.5f, transform.position.z-1);
-		go.transform.parent = transform.parent;
+		GameObject go = Instantiate (pmMenuPrefab) as GameObject;
+		go.transform.parent = transform;
 	}
+
 }
