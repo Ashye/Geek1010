@@ -17,7 +17,7 @@ public class Block : MonoBehaviour {
 
 	//clear Row and Col
 	private GameObject		tmpblk = null;
-	private float			clearSpeed = 2f;
+	private float			clearSpeed = 5f;
 
 
 
@@ -86,7 +86,7 @@ public class Block : MonoBehaviour {
 
 	private void ClearRowACol() {
 		Vector3 pos = transform.position;
-		pos.z = 8f;
+		pos.z -= 1;
 		tmpblk = Instantiate(blockPrefab, pos, transform.rotation) as GameObject;
 		tmpblk.renderer.material.color = renderer.material.color;
 

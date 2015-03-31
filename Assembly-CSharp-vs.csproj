@@ -50,6 +50,8 @@
      <Compile Include="Assets\Scripts\GameOver.cs" />
      <Compile Include="Assets\Scripts\Home.cs" />
      <Compile Include="Assets\Scripts\MainPlay.cs" />
+     <Compile Include="Assets\Scripts\PlayMenu.cs" />
+     <Compile Include="Assets\Scripts\PlayMenuItems.cs" />
      <Compile Include="Assets\Scripts\Scoreboard.cs" />
      <Compile Include="Assets\Scripts\Shape.cs" />
      <Compile Include="Assets\test\test.cs" />

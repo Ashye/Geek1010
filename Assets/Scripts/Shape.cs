@@ -99,7 +99,7 @@ public class Shape : MonoBehaviour {
 
 		//move up some space when drag the shape
 		Vector3 tmppos = gameObject.transform.position;
-		gameObject.transform.position  = tmppos + new Vector3(0f, 1.5f, 0f);
+		gameObject.transform.position  = tmppos + new Vector3(0f, 3f, 0f);
 
 
 		Vector3 screenSpace = Camera.main.WorldToScreenPoint (transform.position);
@@ -186,7 +186,7 @@ public class Shape : MonoBehaviour {
 //						print(go.transform.position);
 //						print(offset+bgPos);
 //						print(go.name);
-						print(Vector3.Distance(go.transform.position, (offset + bgPos)));
+//						print(Vector3.Distance(go.transform.position, (offset + bgPos)));
 
 						if (Vector3.Distance(go.transform.position, (offset + bgPos)) < 0.06f) {
 
@@ -205,7 +205,7 @@ public class Shape : MonoBehaviour {
 					}
 				}
 
-				print ("filledCount:" + filledBlocks.Count);
+//				print ("filledCount:" + filledBlocks.Count);
 				if (filledBlocks.Count == transform.childCount) {
 					return true;
 				} else {

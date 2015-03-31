@@ -41,13 +41,15 @@ public class MainPlay : MonoBehaviour {
 
 	public bool				______________________;
 	public GameObject[,]	blocks;
+	private Transform		gridsContainer;
 	private float			gridSize;
 	private float			gridGap;
 	private Vector3			gridLocal;
 
 
+	private Transform		shapeContainer;
 	private Vector3[]		shapePos;
-	private List<GameObject>	randomShapes;	
+	private List<GameObject>	randomShapes;
 
 
 
@@ -55,6 +57,8 @@ public class MainPlay : MonoBehaviour {
 
 	void Awake() {
 		MPlay = this;
+		gridsContainer = transform.GetChild(1);
+		shapeContainer = transform.GetChild(2);
 
 		GameObject blk = Instantiate (blockBGPrefab) as GameObject;
 		gridSize = blk.renderer.bounds.size.x;
@@ -70,12 +74,12 @@ public class MainPlay : MonoBehaviour {
 		shapePos = new Vector3[3];
 		Vector3 p1 = blocks[9,0].transform.position;
 		shapePos[0] = p1 + new Vector3(1f, 0f, 0f);
-		shapePos[0].z = 9f;
+		shapePos[0].z = shapeContainer.transform.position.z;
 		shapePos[0].y -= 5*gridSize;
 
 		p1 = blocks[9,9].transform.position;
 		shapePos[2] = p1 - new Vector3(1f, 0f, 0f);
-		shapePos[2].z = 9f;
+		shapePos[2].z = shapeContainer.transform.position.z;
 		shapePos[2].y -= 5*gridSize;
 
 		shapePos[1] = (shapePos[0] + shapePos[2])/2;
@@ -116,13 +120,12 @@ public class MainPlay : MonoBehaviour {
 
 
 	private void InitGrid() {
-
-		GameObject grid = new GameObject ("blockGrid");
+	
 		blocks = new GameObject[10, 10];
-		Vector3 pos = Vector3.zero;
+		Vector3 pos = gridsContainer.transform.position;
 
 		pos.y = 12f;
-		pos.z = -Camera.main.transform.position.z;
+		//pos.z = -Camera.main.transform.position.z;
 		for(int i=0; i<10; i++) {
 			for (int j=0; j<10; j++) {
 				blocks[i,j] = Instantiate(blockBGPrefab) as GameObject;
@@ -136,7 +139,7 @@ public class MainPlay : MonoBehaviour {
 				}
 				//print(pos);
 				blocks[i,j].transform.position = pos;
-				blocks[i,j].transform.parent = grid.transform;
+				blocks[i,j].transform.parent = gridsContainer.transform;
 //				blocks[i,j].transform.localScale = Vector3.one * gridSize;
 				blocks[i,j].name = "Block_bg-"+i+"-"+j;
 			}
@@ -159,6 +162,7 @@ public class MainPlay : MonoBehaviour {
 		shape.tag = "Shape";
 		shape.layer = LayerMask.NameToLayer ("Shape");
 		shape.GetComponent<Shape>().normalSize = gridLocal;
+		shape.transform.parent = shapeContainer.transform;
 		return shape;
 	}
 
@@ -241,6 +245,7 @@ public class MainPlay : MonoBehaviour {
 	//gameover view
 	private void ShowGameover () {
 		GameObject go = new GameObject();
+		go.layer = LayerMask.NameToLayer("Normal");
 		go.transform.localScale = Vector3.one * 15;
 		go.AddComponent<Rigidbody>();
 		go.AddComponent<GameOver>();
@@ -249,4 +254,5 @@ public class MainPlay : MonoBehaviour {
 		go.transform.position = Vector3.zero;
 		go.transform.parent = gameObject.transform;
 	}
+
 }
