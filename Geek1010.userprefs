@@ -1,8 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MainPlay.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Shape.cs">
     <Files>
-      <File FileName="Assets\Scripts\MainPlay.cs" Line="72" Column="31" />
+      <File FileName="Assets\Scripts\MainPlay.cs" Line="181" Column="20" />
+      <File FileName="Assets\Scripts\Shape.cs" Line="191" Column="75" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -29,7 +29,7 @@ public class test : MonoBehaviour {
 //		print (Camera.main.WorldToScreenPoint(center));
 //		print (Camera.main.WorldToScreenPoint(size));
 
-		transform.position = Camera.main.ScreenToWorldPoint (new Vector3(100f, 10f, 10f));
+		//transform.position = Camera.main.ScreenToWorldPoint (new Vector3(100f, 10f, 10f));
 
 //		print (""+Screen.width+" - "+Screen.height);
 

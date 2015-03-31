@@ -43,6 +43,7 @@ public class MainPlay : MonoBehaviour {
 	public GameObject[,]	blocks;
 	private float			gridSize;
 	private float			gridGap;
+	private Vector3			gridLocal;
 
 
 	private Vector3[]		shapePos;
@@ -57,7 +58,8 @@ public class MainPlay : MonoBehaviour {
 
 		GameObject blk = Instantiate (blockBGPrefab) as GameObject;
 		gridSize = blk.renderer.bounds.size.x;
-		gridGap = 0.1f;
+		gridLocal = blk.transform.localScale;
+		gridGap = 0.12f;
 		Destroy (blk);
 		//print (gridSize + "     " + gridGap);
 
@@ -135,7 +137,7 @@ public class MainPlay : MonoBehaviour {
 				//print(pos);
 				blocks[i,j].transform.position = pos;
 				blocks[i,j].transform.parent = grid.transform;
-				blocks[i,j].transform.localScale = Vector3.one * gridSize;
+//				blocks[i,j].transform.localScale = Vector3.one * gridSize;
 				blocks[i,j].name = "Block_bg-"+i+"-"+j;
 			}
 			pos.y -= gridSize + gridGap;
@@ -156,6 +158,7 @@ public class MainPlay : MonoBehaviour {
 		shape = Instantiate (shapePrefabs [idx]) as GameObject;
 		shape.tag = "Shape";
 		shape.layer = LayerMask.NameToLayer ("Shape");
+		shape.GetComponent<Shape>().normalSize = gridLocal;
 		return shape;
 	}
 
@@ -170,7 +173,7 @@ public class MainPlay : MonoBehaviour {
 //		print("test shape:"+shape.name+ "   blocks: "+shape.transform.childCount);
 		bool canDrop = false;
 		Vector3 local = shape.transform.localScale;
-		shape.transform.localScale = Vector3.one;
+		shape.transform.localScale = gridLocal;
 
 		//依次把图案放在网格中尝试放下
 		Vector3 shape0Pos = shape.transform.GetChild(0).position;
@@ -188,7 +191,9 @@ public class MainPlay : MonoBehaviour {
 				offset = shape.transform.GetChild(m).position - shape0Pos;
 
 				foreach(GameObject grid in blocks) {
-					if (grid.transform.position == (grid0Pos + offset)) {
+
+					if (Vector3.Distance(grid.transform.position, (grid0Pos+offset)) < 0.06f) {
+//					if (grid.transform.position == (grid0Pos + offset)) {
 						if (false == grid.GetComponent<Block>().empty) {
 							break;
 						}else {

@@ -5,10 +5,13 @@ using System.Collections.Generic;
 public class Shape : MonoBehaviour {
 	//public bool					__________________________;
 
-	private Vector3				oldScale;
-	private Vector3				oldPos;
+
+	public Vector3				normalSize ; //=0.9f;
+	private Vector3				initScale;
+	private Vector3				initPos;
 	private Color				shapeColor;
 	private CapsuleCollider		dragArea;
+
 
 
 	//drop blocks
@@ -23,14 +26,13 @@ public class Shape : MonoBehaviour {
 
 
 	//show up animation
-	private Vector3				targetPos;
 	private bool				isAnimate;
 	private float				moveSpeed = 70;
 
 
 
 	void Awake() {
-		oldScale = gameObject.transform.localScale;
+		initScale = gameObject.transform.localScale;
 		lColliders = new List<GameObject> ();
 		filledBlocks = new List<GameObject> ();
 		waitToClear = new List<GameObject> ();
@@ -41,13 +43,12 @@ public class Shape : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
-		targetPos = transform.position;
+		
+		initPos = transform.position;
 		transform.position = Vector3.one * -10;
 		isAnimate = true;
 
-
-		oldPos = targetPos;
+		
 		shapeColor = transform.GetChild (0).renderer.material.color;
 
 	}
@@ -60,8 +61,8 @@ public class Shape : MonoBehaviour {
 	void FixedUpdate() {
 
 		if (isAnimate) {
-			if (transform.position != targetPos) {
-				transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * moveSpeed);
+			if (transform.position != initPos) {
+				transform.position = Vector3.MoveTowards(transform.position, initPos, Time.deltaTime * moveSpeed);
 			}else {
 				isAnimate = false;
 			}
@@ -94,7 +95,7 @@ public class Shape : MonoBehaviour {
 
 		//禁用 用于拖动区域的碰撞器，避免计算填充块时出现错误
 		dragArea.enabled = false;
-		gameObject.transform.localScale = 1.01f * Vector3.one;
+		gameObject.transform.localScale = (normalSize*1.05f);
 
 		//move up some space when drag the shape
 		Vector3 tmppos = gameObject.transform.position;
@@ -117,12 +118,10 @@ public class Shape : MonoBehaviour {
 		blockMoving = false;
 		//恢复可拖动区域状态
 		dragArea.enabled = true;
-		gameObject.transform.localScale = Vector3.one;
+		gameObject.transform.localScale = normalSize;
 		//检查能不能放下，能放下则销毁本对象，并填充网格，不能则图案返回原始位置
 
 		if (CheckSpace()) {
-
-		//	gameObject.SetActive(false);
 			FillBlock();
 			Scoreboard.SB.ScoreUp(transform.childCount);
 
@@ -132,8 +131,8 @@ public class Shape : MonoBehaviour {
 			MainPlay.MPlay.AteOneShape(gameObject);
 			Destroy(gameObject);
 		} else {
-			transform.position = oldPos;
-			gameObject.transform.localScale = oldScale;
+			transform.position = initPos;
+			gameObject.transform.localScale = initScale;
 		}
 		headerToFill = null;
 		lColliders.Clear();
@@ -187,13 +186,16 @@ public class Shape : MonoBehaviour {
 //						print(go.transform.position);
 //						print(offset+bgPos);
 //						print(go.name);
-						if (go.transform.position == (offset + bgPos)) {
+						print(Vector3.Distance(go.transform.position, (offset + bgPos)));
+
+						if (Vector3.Distance(go.transform.position, (offset + bgPos)) < 0.06f) {
 
 							if (false == go.GetComponent<Block> ().empty) {
 								return false;
 							} else {
 								if (go != headerToFill) {
 									filledBlocks.Add (go);
+//									print("333333333");
 								}
 //								print("22222222");
 							}
@@ -203,7 +205,7 @@ public class Shape : MonoBehaviour {
 					}
 				}
 
-//				print ("filledCount:" + filledBlocks.Count);
+				print ("filledCount:" + filledBlocks.Count);
 				if (filledBlocks.Count == transform.childCount) {
 					return true;
 				} else {
