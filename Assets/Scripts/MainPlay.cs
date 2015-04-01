@@ -2,30 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-[SerializeField]
-public enum ShapeType {
-	SHAPE_0,
-	SHAPE_1,
-	SHAPE_2,
-	SHAPE_3,
-	SHAPE_4,
-	SHAPE_5,
-	SHAPE_6,
-	SHAPE_7,
-	SHAPE_8,
-	SHAPE_9,
-	SHAPE_10,
-	SHAPE_11,
-	SHAPE_12,
-	SHAPE_13,
-	SHAPE_14,
-	SHAPE_15,
-	SHAPE_16,
-	SHAPE_17,
-	SHAPE_18
-}
-
-
 /*
  * 
  * gridSize: 0.9
@@ -98,8 +74,13 @@ public class MainPlay : MonoBehaviour {
 		if (randomShapes.Count <= 0) {
 			RandomShape();
 		}
-	}
 
+
+		//android back key
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+			PlayMenu.pMenu.ShowPlayMenuItems();
+		}
+	}
 
 
 	private void RandomShape() {
@@ -124,7 +105,7 @@ public class MainPlay : MonoBehaviour {
 		blocks = new GameObject[10, 10];
 		Vector3 pos = gridsContainer.transform.position;
 
-		pos.y = 12f;
+		pos.y = 11f;
 		//pos.z = -Camera.main.transform.position.z;
 		for(int i=0; i<10; i++) {
 			for (int j=0; j<10; j++) {
@@ -147,10 +128,6 @@ public class MainPlay : MonoBehaviour {
 		}
 	}
 
-
-	private GameObject MakeShape(ShapeType st) {
-		return (MakeShape (st.GetHashCode ()));
-	}
 
 	private GameObject MakeShape(int idx) {
 		if (idx >= shapePrefabs.Length) {

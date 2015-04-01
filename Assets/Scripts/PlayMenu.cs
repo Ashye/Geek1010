@@ -3,7 +3,13 @@ using System.Collections;
 
 public class PlayMenu : MonoBehaviour {
 	public GameObject			pmMenuPrefab;
+	static public PlayMenu		pMenu;
 
+	private bool				isShowing = false;
+
+	void Awake() {
+		pMenu = this;
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -20,13 +26,18 @@ public class PlayMenu : MonoBehaviour {
 	}
 
 	void OnMouseUp() {
-		//print("pause game....");
 		ShowPlayMenuItems();
 	}
 
-	private void ShowPlayMenuItems() {
-		GameObject go = Instantiate (pmMenuPrefab) as GameObject;
-		go.transform.parent = transform;
+	public void ShowPlayMenuItems() {
+		if (false == isShowing) {
+			GameObject go = Instantiate (pmMenuPrefab) as GameObject;
+			go.transform.parent = transform;
+			isShowing = true;
+		}else {
+			Destroy(transform.GetChild(0).gameObject);
+			isShowing = false;
+		}
 	}
 
 }

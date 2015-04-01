@@ -10,18 +10,24 @@ public class Scoreboard : MonoBehaviour {
 	private int 			highest = 0;
 	private int				upScore = 0;
 
-	private string 			HIGHEST = "highestScore";
+	static public string 	HIGHEST = "highestScore";
 	private Vector2			labelSize;
-	private GUIStyle		labelStyle;
+	private Vector2			posScore;
+	private Vector2			posHighest;
+//	private GUIStyle		labelStyle;
 
 
 	void OnGUI () {
+		GUI.color = new Color(46, 255, 248);
+		GUI.skin.label.fontSize = Screen.width/8;
 
-		labelStyle.alignment = TextAnchor.MiddleRight;
-		GUI.Label (new Rect(Screen.width/3 - labelSize.x/2, Screen.height/20, labelSize.x, labelSize.y), ""+score, labelStyle);
 
-		labelStyle.alignment = TextAnchor.MiddleLeft;
-		GUI.Label (new Rect(Screen.width/3*2 - labelSize.x/2, Screen.height/20, labelSize.x, labelSize.y), ""+highest, labelStyle);
+		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
+		GUI.Label (new Rect(posScore.x, posScore.y, labelSize.x, labelSize.y), score.ToString());
+
+		GUI.skin.label.fontSize = Screen.width /15;
+		GUI.skin.label.alignment = TextAnchor.MiddleLeft;
+		GUI.Label (new Rect(posHighest.x, posHighest.y, labelSize.x, labelSize.y), highest.ToString());
 	}
 
 	void Awake() {
@@ -33,10 +39,16 @@ public class Scoreboard : MonoBehaviour {
 		PlayerPrefs.SetInt (HIGHEST, highest);
 
 
-		labelSize = new Vector2 (Screen.width/4, Screen.height/15);
-		labelStyle = new GUIStyle ();
-		labelStyle.normal.background = null;
-		labelStyle.fontSize = Screen.height/15;
+		labelSize = new Vector2 (Screen.width/2, Screen.height/12);
+
+		posScore = new Vector2(Screen.width/2 - labelSize.x/2 , Screen.height / 10);
+		posHighest = new Vector2(Screen.width/15, 10);
+
+
+//		labelStyle = new GUIStyle ();
+//		labelStyle.normal.background = null;
+//		labelStyle.fontSize = Screen.height/15;
+
 	}
 
 	// Use this for initialization

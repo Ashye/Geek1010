@@ -22,7 +22,7 @@ public class PlayMenuItems : MonoBehaviour {
 			break;
 
 		case "pmPlay":
-			Destroy(transform.parent.gameObject);
+			PlayMenu.pMenu.ShowPlayMenuItems();
 			break;
 		}
 	}
