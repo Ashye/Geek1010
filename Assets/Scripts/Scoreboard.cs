@@ -12,20 +12,23 @@ public class Scoreboard : MonoBehaviour {
 
 	static public string 	HIGHEST = "highestScore";
 	private Vector2			labelSize;
+	private int 			fontSizeB;
+	private int 			fontSizeS;
 	private Vector2			posScore;
 	private Vector2			posHighest;
 //	private GUIStyle		labelStyle;
 
 
 	void OnGUI () {
-		GUI.color = new Color(46, 255, 248);
-		GUI.skin.label.fontSize = Screen.width/8;
+		GUI.color = new Color(46f/255f, 1f, 248f/255f);
+
+		GUI.skin.label.fontSize = fontSizeB;
 
 
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
 		GUI.Label (new Rect(posScore.x, posScore.y, labelSize.x, labelSize.y), score.ToString());
 
-		GUI.skin.label.fontSize = Screen.width /15;
+		GUI.skin.label.fontSize = fontSizeS;
 		GUI.skin.label.alignment = TextAnchor.MiddleLeft;
 		GUI.Label (new Rect(posHighest.x, posHighest.y, labelSize.x, labelSize.y), highest.ToString());
 	}
@@ -38,10 +41,10 @@ public class Scoreboard : MonoBehaviour {
 		}
 		PlayerPrefs.SetInt (HIGHEST, highest);
 
-
-		labelSize = new Vector2 (Screen.width/2, Screen.height/12);
-
-		posScore = new Vector2(Screen.width/2 - labelSize.x/2 , Screen.height / 10);
+		fontSizeS = Screen.width/15;
+		fontSizeB = Screen.width/8;
+		labelSize = new Vector2 (Screen.width/2, fontSizeB+4);
+		posScore = new Vector2(Screen.width/2 - labelSize.x/2 - 3, Screen.height / 10);
 		posHighest = new Vector2(Screen.width/15, 10);
 
 

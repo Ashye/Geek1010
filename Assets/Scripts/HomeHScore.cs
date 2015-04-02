@@ -1,21 +1,22 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class HomeHScore : MonoBehaviour {
 
-	private Vector3			pos;
+	private Vector2			lablePos;
+	private Vector2			labelSize;
 	private int				hScore;
+	private int			fontSize;
 
-	void OnGUI () {
-		GUI.skin.label.fontSize = Screen.width/8;
+
+
+	void OnGUI() {
+		GUI.color = new Color(46f/255f ,1f,248/255f);
 		GUI.skin.label.alignment = TextAnchor.MiddleCenter;
-		//GUI.Label(new Rect(Screen.width/2- Screen.width/4 - 2, -25, Screen.width/2, 200), hScore.ToString());
-
-		//GUI.Label(new Rect(Screen.width/2- Screen.width/4 - 4, 0 , Screen.width/2, 200), hScore.ToString());
-
-		GUI.Label(new Rect(Screen.width/2- Screen.width/4 - 2, Screen.height - pos.y, Screen.width/2, 200), hScore.ToString());
+		GUI.skin.label.fontSize = fontSize;
+		GUI.Label(new Rect(lablePos.x, lablePos.y, labelSize.x, labelSize.y), hScore.ToString());
 	}
-
 
 	void Awake() {
 		if (PlayerPrefs.HasKey(Scoreboard.HIGHEST)) {
@@ -24,23 +25,24 @@ public class HomeHScore : MonoBehaviour {
 			hScore = 0;
 			PlayerPrefs.SetInt(Scoreboard.HIGHEST, hScore);
 		}
+
+
+		fontSize = (int)(Screen.width/8);
+		labelSize = new Vector2(hScore.ToString().Length * fontSize, fontSize+4);
+
+
 	}
 
 	// Use this for initialization
 	void Start () {
-		Vector3 tmp = new Vector3(-0.4f, 11f, 0);
-		print(tmp);
-//
-//		//Camera.main 调整了高度，所以需要把调整后的高度还原再计算，才会对应到屏幕
-//		tmp.y += (-1f);
-//		tmp.x += 0.4f;
-////
-		pos = Camera.main.WorldToScreenPoint(tmp);
-		print("screen:"+Screen.height);
-		print(pos);
 
-		//pos = new Vector2();
+		Vector3 tmp = transform.position;
+		tmp.y -=1.5f;
 
+		Vector3 aaa = Camera.main.WorldToScreenPoint(tmp);
+
+		lablePos = new Vector2(Screen.width/2 - labelSize.x/2 - 3, Screen.height -  aaa.y);
+		//print(lablePos);
 	}
 	
 	// Update is called once per frame
