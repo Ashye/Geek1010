@@ -48,11 +48,11 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Block.cs" />
      <Compile Include="Assets\Scripts\GameOver.cs" />
+     <Compile Include="Assets\Scripts\Home.cs" />
      <Compile Include="Assets\Scripts\HomeHScore.cs" />
-     <Compile Include="Assets\Scripts\HomeMenuItems.cs" />
      <Compile Include="Assets\Scripts\MainPlay.cs" />
+     <Compile Include="Assets\Scripts\MenuItems.cs" />
      <Compile Include="Assets\Scripts\PlayMenu.cs" />
-     <Compile Include="Assets\Scripts\PlayMenuItems.cs" />
      <Compile Include="Assets\Scripts\Scoreboard.cs" />
      <Compile Include="Assets\Scripts\Shape.cs" />
      <Compile Include="Assets\test\test.cs" />

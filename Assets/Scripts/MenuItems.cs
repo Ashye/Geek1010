@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayMenuItems : MonoBehaviour {
-
+public class MenuItems : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -14,16 +13,22 @@ public class PlayMenuItems : MonoBehaviour {
 	
 	}
 
-	void OnMouseUp() {
-
-		switch(gameObject.name) {
-		case "pmHome":
-			Application.LoadLevel("Home");
+	void OnMouseUp () {
+		switch(transform.name) {
+		case "hPlay":
+		case "goPlay":
+			Application.LoadLevel("Play");
 			break;
 
+		case "pmHome":
+		case "goHome":
+			Application.LoadLevel("Home");
+			break;
+			
 		case "pmPlay":
 			PlayMenu.pMenu.ShowPlayMenuItems();
 			break;
+
 		}
 	}
 }

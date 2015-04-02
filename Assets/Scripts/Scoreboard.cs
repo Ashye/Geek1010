@@ -16,12 +16,17 @@ public class Scoreboard : MonoBehaviour {
 	private int 			fontSizeS;
 	private Vector2			posScore;
 	private Vector2			posHighest;
+	private float			scoreDepth;
 //	private GUIStyle		labelStyle;
 
 
 	void OnGUI () {
-		GUI.color = new Color(46f/255f, 1f, 248f/255f);
+		//GUI.color = new Color(46f/255f, 1f, 248f/255f);
 
+		GUI.depth = 0;
+
+
+		print(GUI.depth);
 		GUI.skin.label.fontSize = fontSizeB;
 
 

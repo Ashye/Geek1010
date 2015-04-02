@@ -14,6 +14,7 @@ public class MainPlay : MonoBehaviour {
 
 	public GameObject		blockBGPrefab;
 	public GameObject[]		shapePrefabs;
+	public GameObject		gameOverPrefab;
 
 	public bool				______________________;
 	public GameObject[,]	blocks;
@@ -21,6 +22,7 @@ public class MainPlay : MonoBehaviour {
 	private float			gridSize;
 	private float			gridGap;
 	private Vector3			gridLocal;
+//	private float			blockDepth;
 
 
 	private Transform		shapeContainer;
@@ -221,15 +223,18 @@ public class MainPlay : MonoBehaviour {
 
 	//gameover view
 	private void ShowGameover () {
-		GameObject go = new GameObject();
-		go.layer = LayerMask.NameToLayer("Normal");
-		go.transform.localScale = Vector3.one * 15;
-		go.AddComponent<Rigidbody>();
-		go.AddComponent<GameOver>();
-		go.AddComponent<BoxCollider>();
-		go.rigidbody.useGravity = false;
-		go.transform.position = Vector3.zero;
-		go.transform.parent = gameObject.transform;
+		GameObject go = Instantiate(gameOverPrefab) as GameObject;
+		go.transform.parent = transform.parent;
+
+//		GameObject go = new GameObject();
+//		go.layer = LayerMask.NameToLayer("Normal");
+//		go.transform.localScale = Vector3.one * 15;
+//		go.AddComponent<Rigidbody>();
+//		go.AddComponent<GameOver>();
+//		go.AddComponent<BoxCollider>();
+//		go.rigidbody.useGravity = false;
+//		go.transform.position = Vector3.zero;
+//		go.transform.parent = gameObject.transform;
 	}
 
 }

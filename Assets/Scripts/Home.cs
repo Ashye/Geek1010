@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HomeMenuItems : MonoBehaviour {
+public class Home : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -12,14 +12,6 @@ public class HomeMenuItems : MonoBehaviour {
 	void Update () {
 		if (Input.GetKeyUp(KeyCode.Escape)) {
 			Application.Quit();
-		}
-	}
-
-	void OnMouseUp () {
-		switch(transform.name) {
-		case "hPlay":
-			Application.LoadLevel("Play");
-			break;
 		}
 	}
 }
