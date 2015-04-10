@@ -39,6 +39,7 @@ public class Block : MonoBehaviour {
 
 	void FixedUpdate () {
 		if (isAnimate) {
+			//print("animation");
 			if (transform.position != targetPos) {
 				transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * moveSpeed);
 			}else {

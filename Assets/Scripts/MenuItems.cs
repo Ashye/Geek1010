@@ -3,23 +3,32 @@ using System.Collections;
 
 public class MenuItems : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+//	void OnMouseUp () {
+//		switch(transform.name) {
+//		case "hPlay":
+//		case "goPlay":
+//			Application.LoadLevel("Play");
+//			break;
+//
+//		case "pmHome":
+//		case "goHome":
+//			Application.LoadLevel("Home");
+//			break;
+//			
+//		case "pmPlay":
+//			PlayMenu.pMenu.ShowPlayMenuItems();
+//			break;
+//
+//		}
+//	}
 
-	void OnMouseUp () {
-		switch(transform.name) {
-		case "hPlay":
+	public void OnClick() {
+		switch(gameObject.name) {
+		case "hmPlay":
 		case "goPlay":
 			Application.LoadLevel("Play");
 			break;
-
+			
 		case "pmHome":
 		case "goHome":
 			Application.LoadLevel("Home");
@@ -29,6 +38,9 @@ public class MenuItems : MonoBehaviour {
 			PlayMenu.pMenu.ShowPlayMenuItems();
 			break;
 
+		case "pmPause":
+			MenuManager.MM.ShowPauseMenu();
+			break;
 		}
 	}
 }

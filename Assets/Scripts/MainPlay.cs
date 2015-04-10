@@ -22,7 +22,6 @@ public class MainPlay : MonoBehaviour {
 	private float			gridSize;
 	private float			gridGap;
 	private Vector3			gridLocal;
-//	private float			blockDepth;
 
 
 	private Transform		shapeContainer;
@@ -35,13 +34,13 @@ public class MainPlay : MonoBehaviour {
 
 	void Awake() {
 		MPlay = this;
-		gridsContainer = transform.GetChild(1);
-		shapeContainer = transform.GetChild(2);
+		gridsContainer = transform.GetChild(0);
+		shapeContainer = transform.GetChild(1);
 
 		GameObject blk = Instantiate (blockBGPrefab) as GameObject;
 		gridSize = blk.renderer.bounds.size.x;
 		gridLocal = blk.transform.localScale;
-		gridGap = 0.12f;
+		gridGap = 0.1f;
 		Destroy (blk);
 		//print (gridSize + "     " + gridGap);
 
@@ -96,7 +95,7 @@ public class MainPlay : MonoBehaviour {
 			randomShapes.Add(go);
 		}
 
-		//check game over
+//		//check game over
 		CheckGameOver();
 
 	}
@@ -115,18 +114,17 @@ public class MainPlay : MonoBehaviour {
 				blocks[i,j].tag = "Block";
 				blocks[i,j].layer = LayerMask.NameToLayer("Block");
 				if (j == 0) {
-					pos.x = -5*gridSize - 4.5f * gridGap;
+					pos.x = -5*gridSize - 1f * gridGap;
 					//print(pos.x);
 				}else {
-					pos.x += gridSize + gridGap;
+					pos.x += (gridSize + gridGap);
 				}
 				//print(pos);
 				blocks[i,j].transform.position = pos;
 				blocks[i,j].transform.parent = gridsContainer.transform;
-//				blocks[i,j].transform.localScale = Vector3.one * gridSize;
 				blocks[i,j].name = "Block_bg-"+i+"-"+j;
 			}
-			pos.y -= gridSize + gridGap;
+			pos.y -= (gridSize + gridGap);
 		}
 	}
 
