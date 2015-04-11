@@ -117,6 +117,9 @@ public class Shape : MonoBehaviour {
 		//检查能不能放下，能放下则销毁本对象，并填充网格，不能则图案返回原始位置
 
 		if (CheckSpace()) {
+
+			SoundEffect.SE.MakeDropSound();
+
 			FillBlock();
 			Scoreboard.SB.ScoreUp(transform.childCount);
 
@@ -126,6 +129,7 @@ public class Shape : MonoBehaviour {
 			MainPlay.MPlay.AteOneShape(gameObject);
 			Destroy(gameObject);
 		} else {
+			SoundEffect.SE.MakeCanntDropSound();
 			transform.position = initPos;
 			gameObject.transform.localScale = initScale;
 		}
@@ -274,6 +278,9 @@ public class Shape : MonoBehaviour {
 
 	private void ClearRowsACols() {
 		if (waitToClear.Count > 0) {
+
+			SoundEffect.SE.MakeGridClearSound();
+
 			Scoreboard.SB.ScoreUp(waitToClear.Count);
 
 			//filter the duplicated grids

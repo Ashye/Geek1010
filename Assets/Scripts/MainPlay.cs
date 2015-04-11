@@ -85,6 +85,9 @@ public class MainPlay : MonoBehaviour {
 
 
 	private void RandomShape() {
+
+		SoundEffect.SE.MakeShapeShowUpSound();
+
 		//刷新待放置图案
 		int idx = -1;
 		GameObject go = null;
@@ -221,6 +224,7 @@ public class MainPlay : MonoBehaviour {
 
 	//gameover view
 	private void ShowGameover () {
+		SoundEffect.SE.MakeGameoverSound();
 		MenuManager.MM.ShowGameOverMenu();
 	}
 

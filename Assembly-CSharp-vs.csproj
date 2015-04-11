@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\Scoreboard.cs" />
      <Compile Include="Assets\Scripts\Shape.cs" />
      <Compile Include="Assets\Scripts\ShowScore.cs" />
+     <Compile Include="Assets\Scripts\SoundEffect.cs" />
      <None Include="Assets\Textures\UnlitAlpha.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.3/UnityEngine.UI.dll</HintPath>

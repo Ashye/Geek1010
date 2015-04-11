@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 94bb4fe75b9641543a34ac088d8adf26
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - dropClip: {fileID: 8300000, guid: bdab31f96692c8c449adddd79e7e1fb0, type: 3}
+  - gameoverClip: {fileID: 8300000, guid: 887a9f55a48a4fb4a8c64aa316998c4a, type: 3}
+  - gobackClip: {fileID: 8300000, guid: 94a1ea3b4ab88a84db360b393dd07571, type: 3}
+  - gridClearClip: {fileID: 8300000, guid: 2740980e2b2568243b87bafc2c5a64c4, type: 3}
+  - shapeShowUpClip: {fileID: 8300000, guid: c8ff5f9918242e040a0a9e157472d7f6, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
