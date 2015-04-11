@@ -47,17 +47,13 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Block.cs" />
-     <Compile Include="Assets\Scripts\GameOver.cs" />
      <Compile Include="Assets\Scripts\Home.cs" />
-     <Compile Include="Assets\Scripts\HomeHScore.cs" />
      <Compile Include="Assets\Scripts\MainPlay.cs" />
      <Compile Include="Assets\Scripts\MenuItems.cs" />
      <Compile Include="Assets\Scripts\MenuManager.cs" />
-     <Compile Include="Assets\Scripts\PlayMenu.cs" />
      <Compile Include="Assets\Scripts\Scoreboard.cs" />
      <Compile Include="Assets\Scripts\Shape.cs" />
-     <Compile Include="Assets\test\test.cs" />
-     <None Include="Assets\Textures\Simple Alpha.shader" />
+     <Compile Include="Assets\Scripts\ShowScore.cs" />
      <None Include="Assets\Textures\UnlitAlpha.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.3/UnityEngine.UI.dll</HintPath>

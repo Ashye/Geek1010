@@ -32,11 +32,6 @@ public class Block : MonoBehaviour {
 		_rowAndCol = getRowACol ();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
 	void FixedUpdate () {
 		if (isAnimate) {
 			//print("animation");

@@ -52,6 +52,12 @@ public class Scoreboard : MonoBehaviour {
 		}
 	}
 
+	public int currScore {
+		get {
+			return score;
+		}
+	}
+
 	void OnDestroy() {
 		//PlayerPrefs.DeleteAll ();
 	}

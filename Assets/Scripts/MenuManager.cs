@@ -6,7 +6,8 @@ public class MenuManager : MonoBehaviour {
 	static public MenuManager		MM;
 
 
-	public GameObject				pmPrefab;
+	public GameObject				pmMenu;
+	public GameObject				goMenu;
 
 
 	private GameObject				menu;
@@ -17,17 +18,16 @@ public class MenuManager : MonoBehaviour {
 	}
 
 	public void ShowPauseMenu() {
-		menu = Instantiate(pmPrefab) as GameObject;
-		menu.transform.SetParent(transform.parent);
-		menu.transform.position = transform.parent.position;
-		menu.transform.localScale = Vector3.one;
+		menu = pmMenu;
+		menu.SetActive(true);
 	}
 
 	public void HidePauseMenu() {
-
+		menu.SetActive(false);
 	}
 
 	public void ShowGameOverMenu() {
-
+		menu = goMenu;
+		menu.SetActive(true);
 	}
 }

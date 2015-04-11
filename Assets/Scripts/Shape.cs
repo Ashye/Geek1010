@@ -52,11 +52,6 @@ public class Shape : MonoBehaviour {
 		shapeColor = transform.GetChild (0).renderer.material.color;
 
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
 	void FixedUpdate() {
 
@@ -279,28 +274,24 @@ public class Shape : MonoBehaviour {
 
 	private void ClearRowsACols() {
 		if (waitToClear.Count > 0) {
-			foreach (GameObject go in waitToClear) {
+			Scoreboard.SB.ScoreUp(waitToClear.Count);
+
+			//filter the duplicated grids
+			HashSet<GameObject> filterOut = new HashSet<GameObject>();
+			foreach(GameObject tmp in waitToClear) {
+				filterOut.Add(tmp);
+			}
+		//	print("filter out count: "+filterOut.Count);
+			foreach (GameObject go in filterOut) {
 				go.GetComponent<Block> ().empty = true;
 				//print(go.name);
 			}
-			Scoreboard.SB.ScoreUp(waitToClear.Count);
+
 			waitToClear.Clear ();
 		} else {
 			//print("waitclear :"+waitToClear.Count);
 		}
 	}
-
-//	void OnTriggerEnter(Collider other) {
-//		//print ("sssssssssssssssss");
-//		if (blockMoving) {
-//			if (!lColliders.Contains(other.gameObject)) {
-//				lColliders.Add (other.gameObject);
-//			}
-//
-//		}
-//
-//		print (lColliders.Count);
-//	}
 
 	void OnTriggerStay(Collider other) {
 		if (blockMoving) {

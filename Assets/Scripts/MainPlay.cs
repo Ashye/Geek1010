@@ -14,7 +14,7 @@ public class MainPlay : MonoBehaviour {
 
 	public GameObject		blockBGPrefab;
 	public GameObject[]		shapePrefabs;
-	public GameObject		gameOverPrefab;
+//	public GameObject		gameOverPrefab;
 
 	public bool				______________________;
 	public GameObject[,]	blocks;
@@ -79,7 +79,7 @@ public class MainPlay : MonoBehaviour {
 
 		//android back key
 		if (Input.GetKeyDown(KeyCode.Escape)) {
-			PlayMenu.pMenu.ShowPlayMenuItems();
+			MenuManager.MM.ShowPauseMenu();
 		}
 	}
 
@@ -221,18 +221,7 @@ public class MainPlay : MonoBehaviour {
 
 	//gameover view
 	private void ShowGameover () {
-		GameObject go = Instantiate(gameOverPrefab) as GameObject;
-		go.transform.parent = transform.parent;
-
-//		GameObject go = new GameObject();
-//		go.layer = LayerMask.NameToLayer("Normal");
-//		go.transform.localScale = Vector3.one * 15;
-//		go.AddComponent<Rigidbody>();
-//		go.AddComponent<GameOver>();
-//		go.AddComponent<BoxCollider>();
-//		go.rigidbody.useGravity = false;
-//		go.transform.position = Vector3.zero;
-//		go.transform.parent = gameObject.transform;
+		MenuManager.MM.ShowGameOverMenu();
 	}
 
 }
