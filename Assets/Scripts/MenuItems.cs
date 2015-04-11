@@ -23,6 +23,16 @@ public class MenuItems : MonoBehaviour {
 		case "pmPause":
 			MenuManager.MM.ShowPauseMenu();
 			break;
+
+		case "hMute":
+		case "pMute":
+			//change value in memory
+			//save value to pref
+			GameSettings.GS.ToggleMute();
+
+			//change materials
+			//done in muteScript
+			break;
 		}
 	}
 }

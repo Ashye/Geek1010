@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class MenuManager : MonoBehaviour {
@@ -11,6 +12,7 @@ public class MenuManager : MonoBehaviour {
 
 
 	private GameObject				menu;
+
 
 
 	void Awake() {
@@ -30,4 +32,11 @@ public class MenuManager : MonoBehaviour {
 		menu = goMenu;
 		menu.SetActive(true);
 	}
+
+//	public void ToggleMuteSound() {
+//		SoundEffect.SE.MuteSound(!SoundEffect.SE.mute);
+
+		//fresh sound menu materials
+
+//	}
 }

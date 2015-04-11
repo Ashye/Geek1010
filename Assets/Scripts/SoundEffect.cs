@@ -14,6 +14,7 @@ public class SoundEffect : MonoBehaviour {
 
 	void Awake() {
 		SE = this;
+
 	}
 
 	public void MakeDropSound() {
@@ -37,6 +38,8 @@ public class SoundEffect : MonoBehaviour {
 	}
 
 	private void MakeSound(AudioClip clip) {
-		AudioSource.PlayClipAtPoint(clip, transform.position);
+		if (0 == GameSettings.GS.mute) {
+			AudioSource.PlayClipAtPoint(clip, transform.position);
+		}
 	}
 }

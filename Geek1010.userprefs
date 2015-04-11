@@ -1,9 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Shape.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameSettings.cs">
     <Files>
-      <File FileName="Assets\Scripts\Shape.cs" Line="120" Column="4" />
-      <File FileName="Assets\Scripts\MainPlay.cs" Line="227" Column="38" />
+      <File FileName="Assets\Scripts\GameSettings.cs" Line="28" Column="17" />
+      <File FileName="Assets\Scripts\MuteScript.cs" Line="9" Column="21" />
+      <File FileName="Assets\Scripts\MenuItems.cs" Line="18" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
