@@ -54,7 +54,7 @@ public class Scoreboard : MonoBehaviour {
 
 	public int currScore {
 		get {
-			return score;
+			return (score+upScore);
 		}
 	}
 

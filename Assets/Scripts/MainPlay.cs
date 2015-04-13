@@ -82,10 +82,10 @@ public class MainPlay : MonoBehaviour {
 		}
 
 
-		//android back key
-		if (Input.GetKeyDown(KeyCode.Escape)) {
-			MenuManager.MM.ShowPauseMenu();
-		}
+//		//android back key
+//		if (Input.GetKeyDown(KeyCode.Escape)) {
+//			MenuManager.MM.ShowPauseMenu();
+//		}
 	}
 
 

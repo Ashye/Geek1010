@@ -11,12 +11,32 @@ public class MenuManager : MonoBehaviour {
 	public GameObject				goMenu;
 
 
-	private GameObject				menu;
+	private GameObject				menu = null;
 
 
 
 	void Awake() {
 		MM = this;
+	}
+
+	void FixedUpdate() {
+		//android back key
+
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+			if (menu == null) {
+				ShowPauseMenu();
+			}else if (menu == pmMenu) {
+				HidePauseMenu();
+			}else if (menu == goMenu) {
+				Application.LoadLevel("Home");
+//			}else {
+//				Application.LoadLevel("Home");
+			}
+		}else if (Input.GetKeyDown(KeyCode.Menu)) {
+			if (menu == null) {
+				ShowPauseMenu();
+			}
+		}
 	}
 
 	public void ShowPauseMenu() {
@@ -26,6 +46,7 @@ public class MenuManager : MonoBehaviour {
 
 	public void HidePauseMenu() {
 		menu.SetActive(false);
+		menu = null;
 	}
 
 	public void ShowGameOverMenu() {
