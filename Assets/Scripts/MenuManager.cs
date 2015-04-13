@@ -22,7 +22,7 @@ public class MenuManager : MonoBehaviour {
 	void FixedUpdate() {
 		//android back key
 
-		if (Input.GetKeyDown(KeyCode.Escape)) {
+		if (Input.GetKeyUp(KeyCode.Escape)) {
 			if (menu == null) {
 				ShowPauseMenu();
 			}else if (menu == pmMenu) {
@@ -32,7 +32,7 @@ public class MenuManager : MonoBehaviour {
 //			}else {
 //				Application.LoadLevel("Home");
 			}
-		}else if (Input.GetKeyDown(KeyCode.Menu)) {
+		}else if (Input.GetKeyUp(KeyCode.Menu)) {
 			if (menu == null) {
 				ShowPauseMenu();
 			}
