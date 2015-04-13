@@ -29,9 +29,14 @@ public class MenuItems : MonoBehaviour {
 			//change value in memory
 			//save value to pref
 			GameSettings.GS.ToggleMute();
-
 			//change materials
-			//done in muteScript
+			//done in ButtonUI Script
+			break;
+
+		case "hLevel":
+			//change materials
+			//done in ButtonUI Script
+			GameSettings.GS.ToggleLevel();
 			break;
 		}
 	}

@@ -28,12 +28,16 @@ public class MainPlay : MonoBehaviour {
 	private Vector3[]		shapePos;
 	private List<GameObject>	randomShapes;
 
-
+	//level parameter
+	private int 			level;
 
 
 
 	void Awake() {
 		MPlay = this;
+
+
+
 		gridsContainer = transform.GetChild(0);
 		shapeContainer = transform.GetChild(1);
 
@@ -67,6 +71,7 @@ public class MainPlay : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		level = GameSettings.GS.level;
 		RandomShape ();
 	}
 	 
@@ -85,6 +90,8 @@ public class MainPlay : MonoBehaviour {
 
 
 	private void RandomShape() {
+		// the number of normal level is 15, the extra are in the hard level
+		int maxLen = level == 1? shapePrefabs.Length : 15;
 
 		SoundEffect.SE.MakeShapeShowUpSound();
 
@@ -92,7 +99,7 @@ public class MainPlay : MonoBehaviour {
 		int idx = -1;
 		GameObject go = null;
 		for(int i=0; i<shapePos.Length; i++) {
-			idx = Random.Range(0, shapePrefabs.Length);
+			idx = Random.Range(0, maxLen);
 			go = MakeShape(idx);
 			go.transform.position = shapePos[i];
 			randomShapes.Add(go);

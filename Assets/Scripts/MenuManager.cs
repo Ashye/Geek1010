@@ -33,10 +33,4 @@ public class MenuManager : MonoBehaviour {
 		menu.SetActive(true);
 	}
 
-//	public void ToggleMuteSound() {
-//		SoundEffect.SE.MuteSound(!SoundEffect.SE.mute);
-
-		//fresh sound menu materials
-
-//	}
 }

@@ -283,13 +283,7 @@ public class Shape : MonoBehaviour {
 
 			Scoreboard.SB.ScoreUp(waitToClear.Count);
 
-			//filter the duplicated grids
-			HashSet<GameObject> filterOut = new HashSet<GameObject>();
-			foreach(GameObject tmp in waitToClear) {
-				filterOut.Add(tmp);
-			}
-		//	print("filter out count: "+filterOut.Count);
-			foreach (GameObject go in filterOut) {
+			foreach (GameObject go in waitToClear) {
 				go.GetComponent<Block> ().empty = true;
 				//print(go.name);
 			}
@@ -307,7 +301,7 @@ public class Shape : MonoBehaviour {
 			}
 		}
 
-		//print (lColliders.Count);
+//		print (lColliders.Count);
 	}
 
 	void OnTriggerExit(Collider other) {

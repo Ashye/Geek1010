@@ -71,6 +71,11 @@ public class Block : MonoBehaviour {
 			return _empty;
 		}
 		set {
+
+			//void the cross point deal with twice problem
+			if (value && _empty) {
+				return;
+			}
 			_empty = value;
 			//restore color when block is empty
 			if (_empty) {
