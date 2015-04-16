@@ -14,7 +14,7 @@ public class MainPlay : MonoBehaviour {
 
 	public GameObject		blockBGPrefab;
 	public GameObject[]		shapePrefabs;
-//	public GameObject		gameOverPrefab;
+
 
 	public bool				______________________;
 	public GameObject[,]	blocks;
@@ -73,6 +73,14 @@ public class MainPlay : MonoBehaviour {
 	void Start () {
 		level = GameSettings.GS.level;
 		RandomShape ();
+
+
+
+
+//		print(System.DateTime.Now.Millisecond);
+//		print(System.Environment.TickCount);
+//		print(System.DateTime.Now.Ticks);
+
 	}
 	 
 	// Update is called once per frame
@@ -92,7 +100,7 @@ public class MainPlay : MonoBehaviour {
 	private void RandomShape() {
 		// the number of normal level is 15, the extra are in the hard level
 		int maxLen = level == 1? shapePrefabs.Length : 15;
-
+		Random.seed = System.DateTime.Now.Millisecond;
 		SoundEffect.SE.MakeShapeShowUpSound();
 
 		//刷新待放置图案
@@ -100,6 +108,9 @@ public class MainPlay : MonoBehaviour {
 		GameObject go = null;
 		for(int i=0; i<shapePos.Length; i++) {
 			idx = Random.Range(0, maxLen);
+			if (idx >= 15) {
+				idx = Random.Range(0, maxLen);
+			}
 			go = MakeShape(idx);
 			go.transform.position = shapePos[i];
 			randomShapes.Add(go);
