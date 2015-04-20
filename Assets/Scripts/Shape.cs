@@ -30,9 +30,12 @@ public class Shape : MonoBehaviour {
 	private float				moveSpeed = 70;
 
 
+	//for reuse
+	private bool				isReuse = false;
+
 
 	void Awake() {
-		initScale = gameObject.transform.localScale;
+		initScale = transform.localScale;
 		lColliders = new List<GameObject> ();
 		filledBlocks = new List<GameObject> ();
 		waitToClear = new List<GameObject> ();
@@ -51,6 +54,20 @@ public class Shape : MonoBehaviour {
 		
 		shapeColor = transform.GetChild (0).renderer.material.color;
 
+	}
+
+
+	private void OnDisable() {
+		isReuse = true;
+	}
+
+	public void ReStart() {
+		if (isReuse) {
+			transform.localScale = initScale;
+			initPos = transform.position;
+			transform.position = Vector3.one * -10;
+			isAnimate = true;
+		}
 	}
 
 	void FixedUpdate() {
@@ -127,7 +144,7 @@ public class Shape : MonoBehaviour {
 			CheckBlocksNeedClear();
 			ClearRowsACols();
 			MainPlay.MPlay.AteOneShape(gameObject);
-			Destroy(gameObject);
+//			Destroy(gameObject);
 		} else {
 			SoundEffect.SE.MakeCanntDropSound();
 			transform.position = initPos;

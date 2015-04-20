@@ -26,7 +26,11 @@ public class MainPlay : MonoBehaviour {
 
 	private Transform		shapeContainer;
 	private Vector3[]		shapePos;
+//	private Vector3			shapeInitScale;
 	private List<GameObject>	randomShapes;
+//	private Hashtable			shapePool;
+//	private List<GameObject>	shapePool;
+	private Dictionary<int, GameObject>		shapePool;
 
 	//level parameter
 	private int 			level;
@@ -65,21 +69,19 @@ public class MainPlay : MonoBehaviour {
 
 		shapePos[1] = (shapePos[0] + shapePos[2])/2;
 
+//		shapeInitScale = new Vector3(0.6f, 0.6f, 1f);
+
 
 		randomShapes = new List<GameObject>();
+//		shapePool = new Hashtable();
+//		shapePool = new List<GameObject>();
+		shapePool = new Dictionary<int, GameObject>();
 	}
 
 	// Use this for initialization
 	void Start () {
 		level = GameSettings.GS.level;
 		RandomShape ();
-
-
-
-
-//		print(System.DateTime.Now.Millisecond);
-//		print(System.Environment.TickCount);
-//		print(System.DateTime.Now.Ticks);
 
 	}
 	 
@@ -113,6 +115,7 @@ public class MainPlay : MonoBehaviour {
 			}
 			go = MakeShape(idx);
 			go.transform.position = shapePos[i];
+			go.GetComponent<Shape>().ReStart();
 			randomShapes.Add(go);
 		}
 
@@ -149,25 +152,61 @@ public class MainPlay : MonoBehaviour {
 		}
 	}
 
+	private void PutToPool(GameObject go) {
+
+		go.SetActive(false);
+
+		string id = ((go.name.Substring(5)).Split('('))[0];
+
+		int idx = int.Parse(id);
+		if (shapePool.ContainsKey(idx)) {
+			Destroy(go);
+		}else {
+			shapePool.Add(idx, go);
+		}
+
+	}
+
+	private GameObject GetFromPool(int idx) {
+		GameObject shape = null;
+
+		if ( shapePool.ContainsKey(idx)) {
+			shape = shapePool[idx];
+			shapePool.Remove(idx);
+		}
+		return shape;
+	}
+
 
 	private GameObject MakeShape(int idx) {
 		if (idx >= shapePrefabs.Length) {
 			return null;
 		}
-		GameObject shape = null;
-		
-		shape = Instantiate (shapePrefabs [idx]) as GameObject;
-		shape.tag = "Shape";
-		shape.layer = LayerMask.NameToLayer ("Shape");
-		shape.GetComponent<Shape>().normalSize = gridLocal;
-		shape.transform.parent = shapeContainer.transform;
+
+		// get shape from shape pool cache
+		GameObject shape = GetFromPool(idx);
+
+		if (shape == null) {
+//			print("make new one:"+idx);
+			shape = Instantiate (shapePrefabs [idx]) as GameObject;
+			shape.tag = "Shape";
+			shape.layer = LayerMask.NameToLayer ("Shape");
+			shape.GetComponent<Shape>().normalSize = gridLocal;
+			shape.transform.parent = shapeContainer.transform;
+		}else {
+//			print("reuse shape:"+idx);
+			shape.SetActive(true);
+		}
+
 		return shape;
 	}
 
 	public void AteOneShape(GameObject go) {
 		randomShapes.Remove(go);
+		PutToPool(go);
 		CheckGameOver();
 	}
+
 
 
 	public bool ShapeCanDrop(GameObject shape) {

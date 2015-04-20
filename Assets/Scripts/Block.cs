@@ -47,8 +47,10 @@ public class Block : MonoBehaviour {
 			if (local.x >0) {
 				tmpblk.transform.localScale = local - Vector3.one * clearSpeed * Time.deltaTime;
 			}else {
-				Destroy(tmpblk);
-				tmpblk = null;
+//				Destroy(tmpblk);
+//				tmpblk = null;
+				tmpblk.SetActive(false);
+
 			}
 		}
 	}
@@ -88,7 +90,16 @@ public class Block : MonoBehaviour {
 	private void ClearRowACol() {
 		Vector3 pos = transform.position;
 		pos.z -= 1;
-		tmpblk = Instantiate(blockPrefab, pos, transform.rotation) as GameObject;
+
+		/* cache tmpblk improve performance */
+		if (tmpblk == null) {
+//			print("instantiate tmpblk..."+getRowACol()[0]+"-"+getRowACol()[1]);
+			tmpblk = Instantiate(blockPrefab, pos, transform.rotation) as GameObject;
+			tmpblk.transform.SetParent(transform);
+		}else {
+			tmpblk.SetActive(true);
+			tmpblk.transform.localScale = transform.localScale;
+		}
 		tmpblk.renderer.material.color = renderer.material.color;
 
 		renderer.material.color = _oldColor;
